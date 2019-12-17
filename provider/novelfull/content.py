@@ -75,7 +75,7 @@ class Content:
                 and not re.compile(r'Book\s+\d+\s+–').search(tag.text)):
             self._italic(paragraph, soup)
 
-            parsed = paragraph.text
+            parsed = paragraph.text.strip()
             parsed = re.sub(r'^…$', '', parsed)
             parsed = re.sub(r'^-{3,}$', '-', parsed)
             parsed = re.sub(r'^\.{3,}$', '..', parsed)
@@ -91,7 +91,7 @@ class Content:
             parsed = re.sub(r'＜＜', '*', parsed)
             parsed = re.sub(r'＞＞', '*', parsed)
 
-            page += parsed + "\n\n"
+            page += parsed.strip() + "\n\n"
 
         return page.strip()
 
