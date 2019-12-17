@@ -90,6 +90,7 @@ class Content:
 
             parsed = re.sub(r'＜＜', '*', parsed)
             parsed = re.sub(r'＞＞', '*', parsed)
+            parsed = re.sub(r"[\t]*", "", parsed)
 
             page += parsed.strip() + "\n\n"
 
