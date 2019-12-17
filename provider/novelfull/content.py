@@ -94,6 +94,8 @@ class Content:
 
             page += parsed.strip() + "\n\n"
 
+            page = re.sub(r"[\t]*", "", page)
+
         return page.strip()
 
     @staticmethod
