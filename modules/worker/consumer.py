@@ -2,9 +2,12 @@ import aiofiles
 import aiohttp
 import json
 
+from provider import provider
 from config import CHAPTERS_LIST_NAME
 from modules.utils import retry, user_agent, logger
-from provider.novelfull import Content as Parser
+
+
+# from provider.wuxiaworld import Content as Parser
 
 
 async def get_body(url):
@@ -32,6 +35,9 @@ async def fetch(session, url):
 
 
 async def get_results(url, save_path):
+    _temp = __import__("provider.{}".format(provider.provider_name), globals(), locals(), ['Content'])
+    Parser = _temp.Content
+
     html = await get_body(url)
 
     parser = Parser(html)

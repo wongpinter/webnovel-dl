@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from slugify import slugify
+from config import DOMAIN_URL
 
 
 class Metadata:
@@ -47,8 +48,10 @@ class Metadata:
             if status is not None:
                 attributes["status"] = status.text
 
-        attributes['image'] = info.find(
+        image = info.find(
             'div', {'class': 'book'}).find_next('img')['src']
+
+        attributes['image'] = "{}{}".format(DOMAIN_URL, image)
 
         return attributes
 

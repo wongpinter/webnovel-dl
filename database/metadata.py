@@ -45,8 +45,8 @@ class Metadata:
         return self.novel['slug']
 
     def cover_url(self):
-        # return self.novel['image']
-        return "{}{}".format(DOMAIN_URL, self.novel['image'])
+        return self.novel['image']
+        # return "{}{}".format("{}_{}".format(DOMAIN_URL, provider.provider_name.upper()), self.novel['image'])
 
     def all_chapters(self):
         if "chapters" in self.novel:

@@ -1,12 +1,22 @@
+from typing import Optional
+
 from config import get_metadata_folder, MAX_THREAD
 from modules.utils import fetch, logger
 from modules.worker import Producer as Worker, handle_tasks
 from database import Metadata as MetadataDB
-from provider.novelfull import Metadata as MetadataParser, Chapters as ChapterParser
+from provider import provider as provider_func
+
+PROVIDER = None
 
 
 class Scraper:
-    def __init__(self, url: str = None):
+    def __init__(self, provider: str = None, url: str = None):
+        provider_func.provider_name = provider
+
+        _temp = __import__('provider.{}'.format(provider), globals(), locals(), ['Metadata', 'Chapters'])
+        self.MetadataParser = _temp.Metadata
+        self.ChapterParser = _temp.Chapters
+
         self.url = url
         self.soup = fetch(self.url)
         self.novel = dict()
@@ -15,8 +25,8 @@ class Scraper:
         self.metadata()
 
     def metadata(self):
-        metadata = MetadataParser(self.soup)
-        print(metadata)
+        metadata = self.MetadataParser(self.soup)
+
         self.novel = metadata.parse()
         self.novel['directory_path'] = get_metadata_folder(self.novel['title'])
         self.novel['url'] = self.url
@@ -27,7 +37,7 @@ class Scraper:
         self.db = MetadataDB(self.novel['title'])
 
     def chapters_from_scraper(self):
-        chapter = ChapterParser(self.soup)
+        chapter = self.ChapterParser(self.soup)
         chapter.all()
 
         return chapter.get_all()

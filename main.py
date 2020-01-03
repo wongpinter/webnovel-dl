@@ -3,6 +3,7 @@
 import click
 
 from modules.utils import logger
+from tld import get_tld
 
 
 @click.group()
@@ -14,9 +15,11 @@ def cli():
 def all_chapters():
     from app import Scraper
     
-    url = click.prompt("Novel URL: ")
+    url = click.prompt("Novel URL")
 
-    scraper = Scraper(url)
+    info = get_tld(url, as_object=True)
+
+    scraper = Scraper(info.domain, url)
 
     logger.info("Scraping {} Chapter Started...".format(url))
     scraper.run()

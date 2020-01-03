@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from natsort import natsort
+from natsort import natsorted
 
 from modules.utils import logger
 
@@ -30,4 +30,4 @@ class Chapters:
             self.chapters.append(chapter['href'])
 
     def get_all(self):
-        return natsort(self.chapters)
+        return natsorted(self.chapters)
