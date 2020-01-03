@@ -58,6 +58,11 @@ class Content:
         return active_url
 
     @staticmethod
+    def __convert_br(el, soup):
+        for br in el.find_all("br"):
+            br.replace_with("\n\n");
+
+    @staticmethod
     def _italic(el, soup):
         for italic in el.find_all("em"):
             the_text = italic.get_text()
@@ -79,8 +84,7 @@ class Content:
                                                       and not re.compile(r'Book\s+\d+\s+–').search(tag.text)):
             self._italic(paragraph, soup)
 
-            for br in paragraph.find_all("br"):
-                br.replace_with("\n\n")
+            self.__convert_br(paragraph, soup)
 
             parsed = paragraph.text
             parsed = re.sub(r'^…$', '', parsed)
