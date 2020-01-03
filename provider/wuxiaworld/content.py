@@ -79,6 +79,9 @@ class Content:
                                                       and not re.compile(r'Book\s+\d+\s+–').search(tag.text)):
             self._italic(paragraph, soup)
 
+            for br in paragraph.find_all("br"):
+                br.replace_with("\n\n")
+
             parsed = paragraph.text
             parsed = re.sub(r'^…$', '', parsed)
             parsed = re.sub(r'^-{3,}$', '-', parsed)
