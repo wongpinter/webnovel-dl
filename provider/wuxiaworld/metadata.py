@@ -17,7 +17,7 @@ class Metadata:
     def summary(self):
         summary_content = self.soup.find("div", {"class", "summary_content"})
 
-        title = self.soup.find("div", {"class", "post-title"}).text.strip()
+        title = self.soup.find("div", {"class", "post-title"}, text=True, recursive=False).text.strip()
 
         image = self.soup.find("div", {'class', 'summary_image'}).find('img')['data-src']
 
