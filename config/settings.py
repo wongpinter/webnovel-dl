@@ -20,6 +20,14 @@ EPUB_FONTS_DIRECTORY = "{}/{}".format(ROOT_DIR, EPUB_FONTS)
 EPUB_CONVERTED_DIRECTORY = os.getenv("EPUB_CONVERTED_DIRECTORY")
 
 
+def create_epub_converted_directory():
+    if not os.path.exists(EPUB_CONVERTED_DIRECTORY):
+        os.mkdir(EPUB_CONVERTED_DIRECTORY)
+
+
+create_epub_converted_directory()
+
+
 def set_metadata_file(title):
     title = slugify(title, to_lower=True)
     return "{}/{}/{}".format(NOVEL_STORAGE_PATH, title, METADATA_NAME)

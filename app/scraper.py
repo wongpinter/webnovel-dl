@@ -1,7 +1,7 @@
 from typing import Optional
 
 from config import get_metadata_folder, MAX_THREAD
-from modules.utils import fetch, logger
+from modules.utils import fetch, logger, remove_folder
 from modules.worker import Producer as Worker, handle_tasks
 from database import Metadata as MetadataDB
 from provider import provider as provider_func
@@ -28,6 +28,9 @@ class Scraper:
         metadata = self.MetadataParser(self.soup)
 
         self.novel = metadata.parse()
+
+        remove_folder(self.novel['title'])
+
         self.novel['directory_path'] = get_metadata_folder(self.novel['title'])
         self.novel['url'] = self.url
 

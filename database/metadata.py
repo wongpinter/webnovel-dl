@@ -1,7 +1,7 @@
 from tinydb import TinyDB
 from slugify import slugify
 
-from config import set_metadata_file, DOMAIN_URL, EPUB_STYLESHEET_PATH, set_compiled_file
+from config import set_metadata_file, EPUB_STYLESHEET_PATH, set_compiled_file
 from modules.utils import exists as file_exists, create_directory, logger
 from datetime import datetime
 
