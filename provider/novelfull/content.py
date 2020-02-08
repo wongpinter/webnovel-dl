@@ -65,6 +65,11 @@ class Content:
 
                 italic.string.replace_with(new_tag)
 
+    @staticmethod
+    def __remove_links(el, soup):
+        for link in el.find_all("a"):
+            link.replace_with("")
+
     def __parse_content_chapter(self, soup):
         content = soup.find('div', {'id': "chapter-content"})
 
