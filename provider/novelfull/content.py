@@ -36,6 +36,7 @@ class Content:
 
         title_text = raw_title.strip()
 
+        title_text = re.sub(r"\b(\d+)\s?-\s?(\1)\b", r'\1 - ', title_text)
         title_text = re.sub(r"–", "-", title_text)
         title_text = re.sub(r"’", "'", title_text)
         title_text = re.sub(r":", " - ", title_text)
@@ -43,7 +44,6 @@ class Content:
         title_text = re.sub(r"(Chapter \d+)\s+", "\\1 - ", title_text)
         title_text = re.sub(r"-\s-", "-", title_text)
         title_text = re.sub(r"\s\s+", " ", title_text)
-        title_text = re.sub(r"\b(\d+)\s?-\s?(\1)\b", r'\1', title_text)
 
         return title_text
 
