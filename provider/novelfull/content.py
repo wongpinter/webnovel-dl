@@ -23,7 +23,7 @@ class Content:
             raise Exception("Content tidak ditemukan..")
 
         title_in_content = section.find(
-            lambda tag: (tag.name == "p" and re.search(r'^[Cc]hapter:?\s+\d+', tag.text)) or (tag.name == "h3"))
+            lambda tag: (tag.name == "p" and re.search(r'^[Cc]hapter:?\s+\d+', tag.text)) or (tag.name == "h3" or tag.name=="h1"))
 
         if title_in_content is None:
             raw_title = soup.find(
