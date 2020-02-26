@@ -3,7 +3,7 @@ import aiohttp
 import json
 
 from provider import provider
-from config import CHAPTERS_LIST_NAME
+from config import CHAPTERS_LIST_NAME, MAX_TCP
 from modules.utils import retry, user_agent, logger
 
 
@@ -12,7 +12,7 @@ from modules.utils import retry, user_agent, logger
 
 async def get_body(url):
     header = user_agent()
-    connector = aiohttp.TCPConnector(limit=10, ttl_dns_cache=33600)
+    connector = aiohttp.TCPConnector(limit=MAX_TCP, ttl_dns_cache=33600)
 
     async with aiohttp.ClientSession(connector=connector, headers=header) as session:
         try:

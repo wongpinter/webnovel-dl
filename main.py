@@ -14,7 +14,7 @@ def cli():
 @click.command()
 def all_chapters():
     from app import Scraper
-    
+
     url = click.prompt("Novel URL")
 
     info = get_tld(url, as_object=True)
@@ -23,6 +23,29 @@ def all_chapters():
 
     logger.info("Scraping {} Chapter Started...".format(url))
     scraper.run()
+
+
+@click.command()
+@click.argument('filename', type=click.Path(exists=True))
+def batch(filename):
+    """Print FILENAME if the file exists."""
+    logger.info("Opening file list {}".format(click.format_filename(filename)))
+    with open(click.format_filename(filename)) as f:
+        urls = f.read().splitlines()
+
+    from app import Scraper
+    logger.info("Attempted to scraping {} novels".format(len(urls)))
+
+    novel = 0
+    for url in urls:
+        novel = novel + 1
+        info = get_tld(url, as_object=True)
+        scraper = Scraper(info.domain, url)
+
+        logger.info("Queue {} from {} Novel. {} for all chapter started...".format(novel, len(urls), url))
+        scraper.run()
+
+    logger.info("Batch Scraping done.")
 
 
 @click.command()
@@ -68,11 +91,11 @@ def rename():
 
 
 cli.add_command(all_chapters)
+cli.add_command(batch)
 cli.add_command(compile_chapters, name="compile")
 cli.add_command(recompile)
 cli.add_command(rename)
 cli.add_command(update)
-
 
 if __name__ == '__main__':
     cli()

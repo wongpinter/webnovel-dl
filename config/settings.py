@@ -7,6 +7,7 @@ load_dotenv(dotenv_path="{}/.env".format(ROOT_DIR))
 
 DOMAIN_URL = os.getenv("DOMAIN_URL")
 MAX_THREAD = int(os.getenv("MAX_THREAD"))
+MAX_TCP = int(os.getenv("MAX_TCP"))
 NOVEL_STORAGE_PATH = os.getenv("NOVEL_STORAGE_PATH")
 METADATA_NAME = os.getenv("METADATA_NAME")
 CHAPTERS_LIST_NAME = os.getenv("CHAPTERS_LIST_NAME")
