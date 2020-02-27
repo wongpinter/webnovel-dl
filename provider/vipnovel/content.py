@@ -1,5 +1,5 @@
 import re
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from slugify import slugify
 
 
@@ -77,7 +77,10 @@ class Content:
     def _fix_br_on_title(title):
         if title.find("br") is not None:
             for br in title.find_all("br"):
-                return br.previous_sibling.text.strip()
+                if isinstance(br.previous_sibling, NavigableString):
+                    return br.previous_sibling.strip()
+                else:
+                    return br.previous_sibling.text.strip()
 
         return title.text.strip()
 
