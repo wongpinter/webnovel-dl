@@ -77,7 +77,7 @@ class Content:
     def _fix_br_on_title(title):
         if title.find("br") is not None:
             for br in title.find_all("br"):
-                return br.previous_sibling.strip()
+                return br.previous_sibling.text.strip()
 
         return title.text.strip()
 
