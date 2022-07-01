@@ -1,8 +1,9 @@
-import requests
+import cloudscraper
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 ua = UserAgent()
+scraper = cloudscraper.create_scraper()
 
 
 def user_agent():
@@ -12,6 +13,6 @@ def user_agent():
 
 
 def fetch(url):
-    page = requests.get(url, headers=user_agent())
+    page = scraper.get(url, headers=user_agent())
 
     return BeautifulSoup(page.content, "lxml")

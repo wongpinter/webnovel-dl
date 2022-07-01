@@ -1,7 +1,6 @@
 import re
+import slugify
 from bs4 import BeautifulSoup
-from slugify import slugify
-
 from config import DOMAIN_URL
 
 
@@ -109,7 +108,7 @@ class Content:
         next_page = soup.find('a', {'id': "next_chap"})
 
         if next_page.has_attr('href'):
-            return slugify(next_page['href'], to_lower=True)
+            return slugify.slugify(next_page['href'], to_lower=True)
 
         return None
 
@@ -118,7 +117,7 @@ class Content:
         previous_page = soup.find('a', {'id': "prev_chap"})
 
         if previous_page.has_attr('href'):
-            return slugify(previous_page['href'], to_lower=True)
+            return slugify.slugify(previous_page['href'], to_lower=True)
 
         return None
 
@@ -127,7 +126,7 @@ class Content:
         current_page = soup.find('li', {'class': 'active'}).find_next('a')
 
         if current_page.has_attr('href'):
-            return slugify(current_page['href'], to_lower=True)
+            return slugify.slugify(current_page['href'], to_lower=True)
 
         return None
 

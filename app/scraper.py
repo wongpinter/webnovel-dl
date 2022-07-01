@@ -64,6 +64,5 @@ class Scraper:
         return chapters
 
     def run(self):
-        worker = Worker(self.all_chapters(), handle_tasks, MAX_THREAD,
-                        options={"save_path": self.novel["directory_path"], "title": self.novel['title']})
+        worker = Worker(self.all_chapters(), options={"save_path": self.novel["directory_path"], "title": self.novel['title']})
         worker.run()

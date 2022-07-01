@@ -1,5 +1,5 @@
+import slugify
 from bs4 import BeautifulSoup
-from slugify import slugify
 from config import DOMAIN_URL
 
 
@@ -14,7 +14,7 @@ class Metadata:
     def parse(self):
         self.metadata = self.get_novel_attributes()
         self.metadata['title'] = self.get_novel_name()
-        self.metadata['slug'] = slugify(self.metadata['title'], to_lower=True)
+        self.metadata['slug'] = slugify.slugify(self.metadata['title'], to_lower=True)
         self.metadata['synopsis'] = self.get_novel_synopsis()
 
         return self.metadata
