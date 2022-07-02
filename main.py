@@ -12,10 +12,12 @@ def cli():
 
 
 @click.command()
-def all_chapters():
+@click.option("--url", default=None, help="novel url to scrape")
+def all_chapters(url):
     from app import Scraper
 
-    url = click.prompt("Novel URL")
+    if url is None:
+        url = click.prompt("Novel URL")
 
     info = get_tld(url, as_object=True)
 
