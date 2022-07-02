@@ -1,6 +1,6 @@
 import json
 import asyncio
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
 import tqdm
 
 from config import CHAPTERS_LIST_NAME
@@ -69,7 +69,7 @@ class NewProducer:
 
         with tqdm.tqdm(total=len(self.urls)) as pbar:
         # let's give it some more threads:
-            with ThreadPoolExecutor(max_workers=10) as executor:
+            with ProcessPoolExecutor(max_workers=100) as executor:
                 futures = {executor.submit(get_results, arg, self.options["save_path"]): arg for arg in self.urls}
                 results = {}
                 for future in as_completed(futures):
