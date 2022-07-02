@@ -4,14 +4,14 @@ def total_chapters(total_chapter: int, chapters_file) -> bool:
 
     from config import CHAPTERS_LIST_NAME
 
-    chapters = []
+    # chapters = []
 
-    for line in open(f"{chapters_file}/{CHAPTERS_LIST_NAME}"):
-        if json_valid(line):
-            data = json.loads(line)
-            chapters.append(data)
+    # for line in open(f"{chapters_file}/{CHAPTERS_LIST_NAME}"):
+    #     if json_valid(line):
+    #         data = json.loads(line)
+    #         chapters.append(data)
 
-    # chapters = [json.loads(line) for line in open("{}/{}".format(chapters_file, CHAPTERS_LIST_NAME))]
+    chapters = [json.loads(line) for line in open("{}/{}".format(chapters_file, CHAPTERS_LIST_NAME))]
 
     total_chapter_downloaded = len(chapters)
 

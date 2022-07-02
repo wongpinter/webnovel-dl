@@ -44,7 +44,7 @@ class Content:
         title_text = re.sub(r"-\s-", "-", title_text)
         title_text = re.sub(r"\s\s+", " ", title_text)
 
-        return title_text.encode("utf-8")
+        return title_text
 
     @staticmethod
     def __get_active_url(soup):

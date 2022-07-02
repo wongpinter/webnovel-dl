@@ -3,7 +3,7 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import tqdm
 
-from config import CHAPTERS_LIST_NAME
+from config import CHAPTERS_LIST_NAME, MAX_THREAD
 from provider import provider
 from modules.utils import logger, total_chapters, remove as remove_file, user_agent, fetch
 
@@ -69,13 +69,28 @@ class NewProducer:
 
         with tqdm.tqdm(total=len(self.urls)) as pbar:
         # let's give it some more threads:
-            with ThreadPoolExecutor(max_workers=150) as executor:
-                futures = {executor.submit(get_results, arg, self.options["save_path"]): arg for arg in self.urls}
-                results = {}
+            with ThreadPoolExecutor(max_workers=MAX_THREAD) as executor:
+                futures = {executor.submit(get_results, arg): arg for arg in self.urls}
                 for future in as_completed(futures):
-                    arg = futures[future]
-                    results[arg] = future.result()
+                    url = futures[future]
+                    try:
+                        data = future.result()
+                        save(self.options["save_path"], data)
+                    except Exception as exc:
+                        print('%r generated an exception: %s' % (url, exc))
+                    # else:
+                    #     print('%r page is %d bytes' % (url, len(data)))
+
                     pbar.update(1)
+
+
+
+                # results = {}
+                # for future in as_completed(futures):
+                #     print(future.result())
+                #     # arg = futures[future]
+                #     # results[arg] = future.result()
+                #     pbar.update(1)
 
         logger.info("Scraping Done.")
 
@@ -85,7 +100,7 @@ class NewProducer:
 
 
 
-def get_results(url, save_path):
+def get_results(url):
     _temp = __import__("provider.{}".format(provider.provider_name), globals(), locals(), ['Content'])
     Parser = _temp.Content
 
@@ -94,18 +109,15 @@ def get_results(url, save_path):
     parser = Parser(html)
     result = parser.get_results()
 
-    save(save_path, result)
-
-    return True
+    return result
 
 
 def save(path, content):
-    filesave = "{}/{}".format(path, "chapters.json")
+    filesave = "{}/{}".format(path, CHAPTERS_LIST_NAME)
 
-    with open(filesave, mode="+a") as writer:
-        writer.write(json.dumps(content) + "\r\n")
-        writer.flush()
-
+    with open(filesave, "a") as f:
+        f.write(json.dumps(content))
+        f.write("\r\n")
 
 def get_body(url):
     header = user_agent()
