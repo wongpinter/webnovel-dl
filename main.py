@@ -17,12 +17,13 @@ def cli():
 @click.argument('filename', type=click.File('r'))
 def download_from_file(filename):
     from app import Scraper
-    
-    for line in filename:
-        if line.strip():
-            info = get_tld(line, as_object=True)
-            scraper = Scraper(info.domain, line)
-            logger.info("Downloading {}".format(line))
+
+    for line in filename.readlines():
+        url = line.strip()
+        if url:
+            info = get_tld(url, as_object=True)
+            scraper = Scraper(info.domain, url)
+            logger.info("Downloading {}".format(url))
             scraper.run()
 
 
