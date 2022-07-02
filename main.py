@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
+from distutils.log import info
 import click
+from app import scraper
 
 from modules.utils import logger
 from tld import get_tld
@@ -9,6 +11,31 @@ from tld import get_tld
 @click.group()
 def cli():
     pass
+
+
+@cli.command()
+@click.argument('filename', type=click.File('r'))
+def download_from_file(filename):
+    from app import Scraper
+    
+    for line in filename:
+        if line.strip():
+            info = get_tld(line, as_object=True)
+            scraper = Scraper(info.domain, line)
+            logger.info("Downloading {}".format(line))
+            scraper.run()
+
+
+    # from app import Scraper
+
+    # for line in filename:
+    #     if line.strip():
+    #         info = get_tld(line, as_object=True)
+
+    #         scraper = Scraper(info.domain, line)
+
+    #         logger.info("Downloading {}".format(line))
+    #         scraper.run()
 
 
 @click.command()
@@ -93,6 +120,7 @@ def rename():
 
 
 cli.add_command(all_chapters)
+cli.add_command(download_from_file)
 cli.add_command(batch)
 cli.add_command(compile_chapters, name="compile")
 cli.add_command(recompile)
