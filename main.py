@@ -27,18 +27,6 @@ def download_from_file(filename):
             scraper.run()
 
 
-    # from app import Scraper
-
-    # for line in filename:
-    #     if line.strip():
-    #         info = get_tld(line, as_object=True)
-
-    #         scraper = Scraper(info.domain, line)
-
-    #         logger.info("Downloading {}".format(line))
-    #         scraper.run()
-
-
 @click.command()
 @click.option("--url", default=None, help="novel url to scrape")
 def all_chapters(url):

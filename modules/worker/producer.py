@@ -64,11 +64,7 @@ class NewProducer:
         self.options = options
 
     def run(self):
-        # with ThreadPoolExecutor(3) as executor:
-        #     executor.map(lambda f: get_results(*f), (self.urls, self.options["save_path"]))
-
         with tqdm.tqdm(total=len(self.urls)) as pbar:
-        # let's give it some more threads:
             with ThreadPoolExecutor(max_workers=MAX_THREAD) as executor:
                 futures = {executor.submit(get_results, arg): arg for arg in self.urls}
                 for future in as_completed(futures):
@@ -82,15 +78,6 @@ class NewProducer:
                     #     print('%r page is %d bytes' % (url, len(data)))
 
                     pbar.update(1)
-
-
-
-                # results = {}
-                # for future in as_completed(futures):
-                #     print(future.result())
-                #     # arg = futures[future]
-                #     # results[arg] = future.result()
-                #     pbar.update(1)
 
         logger.info("Scraping Done.")
 
