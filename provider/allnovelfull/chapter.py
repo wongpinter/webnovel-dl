@@ -26,6 +26,7 @@ class Chapters:
                     self.chapters.append("{}{}".format(DOMAIN_URL, a['href']))
 
         for pagination in soup.find_all("ul", {"class": "pagination pagination-sm"}):
+            print(pagination)
             next_page = pagination.find("li", {"class": "next"}).find('a')
             break
         
