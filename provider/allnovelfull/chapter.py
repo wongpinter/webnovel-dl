@@ -25,8 +25,12 @@ class Chapters:
                 if a:
                     self.chapters.append("{}{}".format(DOMAIN_URL, a['href']))
 
-        next_page = soup.find(
-            "ul", {"class": "pagination pagination-sm"}).find("li", {"class": "next"}).find('a')
+        pagination = soup.find("ul", {"class": "pagination pagination-sm"})
+        
+        if pagination is None:
+            raise Exception("pagination not found")
+
+        next_page = pagination.find("li", {"class": "next"}).find('a')
 
         if next_page:
             return "{}{}".format(DOMAIN_URL, next_page['href'])

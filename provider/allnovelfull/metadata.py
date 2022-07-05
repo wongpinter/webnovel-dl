@@ -21,7 +21,6 @@ class Metadata:
 
     def get_novel_attributes(self):
         info = self.soup.find('div', {'class': 'col-info-desc'})
-        print(self.soup)
         if info is None:
             raise Exception("Information for novel not found..")
 
