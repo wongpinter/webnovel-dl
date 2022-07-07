@@ -24,7 +24,7 @@ class Metadata:
         if info is None:
             raise Exception("Information for novel not found..")
 
-        section_author = info.find_next('li')
+        section_author = info.find_next('li').find_next("li")
         section_genre = section_author.find_next('li')
         section_source = section_genre.find_next('li')
         section_status = section_source.find_next('li')
