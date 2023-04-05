@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from distutils.log import info
 import click
 from app import scraper
 
